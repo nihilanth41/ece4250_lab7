@@ -21,10 +21,11 @@ architecture a of BIN2BCD is
     signal in_binary : std_logic_vector( 15 downto 0 );
     signal upper8, lower8 : std_logic_vector( 7 downto 0 );
 
-    signal good,ready : std_logic := '0';
+	 signal state : integer range 0 to 2;
+	 signal delay : integer range 0 to 5;
 begin
 
-  process( CLK )
+  process( CLK, btn_1, btn_2, state )
     variable s_digit_0 : unsigned( 3 downto 0);
     variable s_digit_1 : unsigned( 3 downto 0);
     variable s_digit_2 : unsigned( 3 downto 0);
@@ -32,13 +33,22 @@ begin
     variable s_digit_4 : unsigned( 3 downto 0);
   begin
 
-  if ( btn_1 = '1' and btn_2 = '0' and good = '0' and ready = '0') then
+	if ( CLK'EVENT and CLK = '1' ) then 
+
+  if ( btn_1 = '1' and btn_2 = '0' and state = 0) then
         upper8 <= input_binary_8;
-        good <= '1';
-  elsif ( btn_1 = '0' and btn_2 = '1' and good ='1' and ready = '0' ) then
+        state <= 1;
+  elsif ( btn_1 = '0' and btn_2 = '1' and state = 1) then
 	lower8 <= input_binary_8;
-	ready <= '1';
-  elsif ( good = '1' and ready = '1' ) then 
+	state <= 2;
+  elsif (btn_1 = '0' and btn_2 = '0' and state = 2 ) then 
+
+
+	delay <= delay + 1;
+	if ( delay = 2 ) then
+		delay <= 0;
+		state <= 0;
+	end if;
 
     in_binary <= upper8( 7 downto 0 ) & lower8( 7 downto 0 );
 
@@ -75,7 +85,7 @@ begin
 	
 
   end if;
-	
+	end if;
   end process;
  
 end architecture a;
