@@ -39,7 +39,7 @@ begin
   if(DONE='1') then
     hex_digit1 <= DIN(3 downto 0);
     hex_digit2 <= DIN(7 downto 4);
-    hex_digit3 <= DIN(11 downto 0);
+    hex_digit3 <= DIN(11 downto 8);
     hex_digit4 <= DIN(15 downto 12);
   end if;
 end process;

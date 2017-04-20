@@ -16,7 +16,14 @@ architecture Behavior of Lab7Bench is
   end component;
 
   -- component BCD2BIN
-  -- component BIN2BCD
+  component BIN2BCD is
+    port (
+    input_binary_8 : in std_logic_vector ( 7 downto 0 );
+    btn_1, btn_2 : in std_logic;
+    clk : in std_logic;
+    BCD : out std_logic_vector ( 15 downto 0 )
+  );
+  end component;
 
   component LEDDisplay is
   port (DIN : in std_logic_vector(15 downto 0);
@@ -49,11 +56,11 @@ begin
   segment_dp <= '1';
 
   -- Named association component name => entity name
-  -- CONV0: BCD2BIN port map(number_in, BTN0, BTN1, CLK, number_out)
-  -- CONV1: BIN2BCD port map(number_in, BTN0, BTN1, CLK, number_out)
+  -- CONV0: BCD2BIN port map(number_in, BTN0, BTN1, CLK, number_out);
+  CONV1: BIN2BCD port map(number_in, BTN0, BTN1, CLK, number_out);
   LEDDisplay0: LEDDisplay port map(number_out, done_signal, counter,
                                    segment_a, segment_b, segment_c,
-                                   segment_d, segment_f, segment_g);
+                                   segment_d, segment_e, segment_f, segment_g);
   ANDisplay: AnodeControl port map(CLK, counter, Anode);
   
-end Behavior;
+end architecture;
