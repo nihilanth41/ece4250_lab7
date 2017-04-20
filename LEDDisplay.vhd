@@ -12,7 +12,6 @@ use IEEE.std_logic_unsigned.all;
 
 entity LEDDisplay is
   port (DIN : in std_logic_vector(15 downto 0) := (others => '0');
-        DONE : in std_logic := '0';
         counter : in std_logic_vector(2 downto 0) := (others => '0');
         segment_a, segment_b, segment_c, segment_d, segment_e, segment_f, segment_g : out std_logic);
 end LEDDisplay;
@@ -34,15 +33,11 @@ signal segment_a1, segment_a2, segment_a3, segment_a4,
 signal hex_digit1, hex_digit2, hex_digit3, hex_digit4 : std_logic_vector (3 downto 0) := (others => '0');
 
 begin
-process (DONE)	
-begin
-  if(DONE='1') then
+
     hex_digit1 <= DIN(3 downto 0);
-    hex_digit2 <= DIN(7 downto 4);
+    hex_digit2 <= DIN(7 downto 4); 
     hex_digit3 <= DIN(11 downto 8);
-    hex_digit4 <= DIN(15 downto 12);
-  end if;
-end process;
+    hex_digit4 <= DIN(15 downto 12); 
 
 
 process (counter,
